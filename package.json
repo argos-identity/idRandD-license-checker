@@ -6,5 +6,6 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "node-schedule": "^2.1.1"
   }
 }

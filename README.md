@@ -32,6 +32,8 @@ npm install
 
 ## 설정
 
+> ⚠️ **필수 설정**: `.env` 파일을 생성 후 슬랙 웹훅 URL(`SLACK_WEBHOOK_URL=`)을 등록해야 합니다.
+
 `.env` 파일을 프로젝트 루트에 생성하고 Slack Webhook URL을 설정합니다.
 
 ```

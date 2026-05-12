@@ -1,0 +1,1 @@
+# idRandD-license-checker

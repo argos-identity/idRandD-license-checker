@@ -1,0 +1,23 @@
+{
+  "namespace": "live",
+  "slack": {
+    "webhookUrl": "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+  },
+  "licenseCheck": {
+    "thresholdDays": 30,
+    "endpoints": [
+      {
+        "name": "ID Check",
+        "url": "http://idLiveDoc-967798788.us-east-1.elb.amazonaws.com/metrics"
+      },
+      {
+        "name": "Verify (Default)",
+        "url": "http://verify-idLiveDoc-225879854.us-east-1.elb.amazonaws.com/metrics"
+      },
+      {
+        "name": "Verify (Upcoming)",
+        "url": "http://verify-new-idLiveDoc-1911579406.us-east-1.elb.amazonaws.com/metrics"
+      }
+    ]
+  }
+}

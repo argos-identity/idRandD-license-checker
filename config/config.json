@@ -7,16 +7,26 @@
     "thresholdDays": 30,
     "endpoints": [
       {
-        "name": "ID Check",
+        "name": "IDLiveDoc - ID Check",
         "url": "http://idLiveDoc-967798788.us-east-1.elb.amazonaws.com/metrics"
       },
       {
-        "name": "Verify (Default)",
+        "name": "IDLiveDoc - Verify (Default)",
         "url": "http://verify-idLiveDoc-225879854.us-east-1.elb.amazonaws.com/metrics"
       },
       {
-        "name": "Verify (Upcoming)",
+        "name": "IDLiveDoc - Verify (Upcoming)",
         "url": "http://verify-new-idLiveDoc-1911579406.us-east-1.elb.amazonaws.com/metrics"
+      },
+      {
+        "name": "Liveness - ID Check",
+        "url": "http://liveness-1292754856.us-east-1.elb.amazonaws.com/metrics",
+        "metricKey": "idliveface_license_remaining_days"
+      },
+      {
+        "name": "Liveness - Verify",
+        "url": "http://verify-liveness-1685842774.us-east-1.elb.amazonaws.com/metrics",
+        "metricKey": "idliveface_license_remaining_days"
       }
     ]
   }

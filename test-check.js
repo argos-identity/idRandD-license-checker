@@ -4,7 +4,7 @@ var https = require('https');
 var url = require('url');
 var config = require('./config');
 
-var METRIC_KEY = 'idlivedoc_license_remaining_days';
+var DEFAULT_METRIC_KEY = 'idlivedoc_license_remaining_days';
 
 function fetchMetrics(endpointUrl) {
     return new Promise(function (resolve, reject) {
@@ -26,11 +26,11 @@ function fetchMetrics(endpointUrl) {
     });
 }
 
-function parseRemainingDays(metricsText) {
+function parseRemainingDays(metricsText, metricKey) {
     var lines = metricsText.split('\n');
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i].trim();
-        if (line.startsWith(METRIC_KEY + '{') || line.startsWith(METRIC_KEY + ' ')) {
+        if (line.startsWith(metricKey + '{') || line.startsWith(metricKey + ' ')) {
             var parts = line.split('}');
             var valueStr = parts.length > 1 ? parts[parts.length - 1].trim() : line.split(' ').pop();
             var value = parseFloat(valueStr);
@@ -45,11 +45,12 @@ function parseRemainingDays(metricsText) {
 var endpoints = config.licenseCheck.endpoints;
 
 Promise.all(endpoints.map(function (endpoint) {
+    var metricKey = endpoint.metricKey || DEFAULT_METRIC_KEY;
     return fetchMetrics(endpoint.url)
         .then(function (metricsText) {
-            var remainingDays = parseRemainingDays(metricsText);
+            var remainingDays = parseRemainingDays(metricsText, metricKey);
             if (remainingDays === null) {
-                console.log('[' + endpoint.name + '] ' + METRIC_KEY + ' 지표를 찾을 수 없음');
+                console.log('[' + endpoint.name + '] ' + metricKey + ' 지표를 찾을 수 없음');
             } else {
                 console.log('[' + endpoint.name + '] 라이선스 잔여일 = ' + remainingDays + '일');
             }

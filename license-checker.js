@@ -5,7 +5,7 @@ var url = require('url');
 var config = require('./config');
 var logger = require('./logger');
 
-var METRIC_KEY = 'idlivedoc_license_remaining_days';
+var DEFAULT_METRIC_KEY = 'idlivedoc_license_remaining_days';
 
 function fetchMetrics(endpointUrl) {
     return new Promise(function (resolve, reject) {
@@ -27,11 +27,11 @@ function fetchMetrics(endpointUrl) {
     });
 }
 
-function parseRemainingDays(metricsText) {
+function parseRemainingDays(metricsText, metricKey) {
     var lines = metricsText.split('\n');
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i].trim();
-        if (line.startsWith(METRIC_KEY + '{') || line.startsWith(METRIC_KEY + ' ')) {
+        if (line.startsWith(metricKey + '{') || line.startsWith(metricKey + ' ')) {
             var parts = line.split('}');
             var valueStr = parts.length > 1 ? parts[parts.length - 1].trim() : line.split(' ').pop();
             var value = parseFloat(valueStr);
@@ -58,7 +58,7 @@ function sendSlackAlert(name, remainingDays) {
         : '라이선스가 ' + remainingDays + '일 남았습니다.';
 
     var payload = JSON.stringify({
-        text: emoji + ' *[idRandD 라이선스 현황 - ' + status + ']* ' + name,
+        text: emoji + ' *[ID RandD 라이선스 현황 - ' + status + ']* ' + name,
         attachments: [
             {
                 color: color,
@@ -104,13 +104,14 @@ function sendSlackAlert(name, remainingDays) {
 function checkLicense(endpoint) {
     var name = endpoint.name;
     var endpointUrl = endpoint.url;
+    var metricKey = endpoint.metricKey || DEFAULT_METRIC_KEY;
 
     return fetchMetrics(endpointUrl)
         .then(function (metricsText) {
-            var remainingDays = parseRemainingDays(metricsText);
+            var remainingDays = parseRemainingDays(metricsText, metricKey);
 
             if (remainingDays === null) {
-                logger.log('warning', name + ': ' + METRIC_KEY + ' 지표를 찾을 수 없음');
+                logger.log('warning', name + ': ' + metricKey + ' 지표를 찾을 수 없음');
                 return;
             }
 

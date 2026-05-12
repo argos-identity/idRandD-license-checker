@@ -1,8 +1,5 @@
 {
   "namespace": "live",
-  "slack": {
-    "webhookUrl": ""
-  },
   "licenseCheck": {
     "thresholdDays": 30,
     "endpoints": [

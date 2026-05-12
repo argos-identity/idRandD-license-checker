@@ -1,7 +1,7 @@
 {
   "namespace": "live",
   "slack": {
-    "webhookUrl": "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+    "webhookUrl": ""
   },
   "licenseCheck": {
     "thresholdDays": 30,

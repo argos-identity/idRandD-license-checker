@@ -44,7 +44,7 @@ function parseRemainingDays(metricsText, metricKey) {
 }
 
 function sendSlackAlert(name, remainingDays) {
-    var webhookUrl = config.slack.webhookUrl;
+    var webhookUrl = process.env.SLACK_WEBHOOK_URL || config.slack.webhookUrl;
     var parsed = url.parse(webhookUrl);
     var client = parsed.protocol === 'https:' ? https : http;
 

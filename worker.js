@@ -9,12 +9,13 @@ var licenseChecker = require('./license-checker');
 //  일요일부터 토요일까지 오후23시 59분 정각에 실행될 스케줄링 등록
 // 0 - Sunday, 1 - Monday, 2 - Tuesday, 3 - Wedsnesday, 4 - Thursday, 5 - Friday, 6 - Saturday
 var rule = new schedule.RecurrenceRule();
-rule.dayOfWeek = [0,new schedule.Range(0,6)];
-rule.hour = 23;
-rule.minute = 59;
+rule.dayOfWeek = [0, new schedule.Range(0, 6)];
+rule.hour = 9;
+rule.minute = 0;
+rule.tz = 'Asia/Seoul';
 
 schedule.scheduleJob(rule, function () {
-    console.log('Recurrence Rule Scheduling : 매일 오후 23:59분에 수행');
+    console.log('Recurrence Rule Scheduling : 매일 오전 09:00 (KST) 수행');
     jobController();
 });
 //schedule.cancel()
